@@ -1,0 +1,115 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <!-- Event Selection -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="card-title">Event Selection</h6>
+            <div class="form-check mt-4">
+                <input class="form-check-input" type="radio" formControlName="eventSelection" value="FHA-Food & Beverage" (change)="onEventSelectionChange()" id="fha">
+                <label class="form-check-label" for="fha">
+              FHA-Food & Beverage
+            </label>
+            </div>
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="radio" formControlName="eventSelection" value="Prowine Singapore" (change)="onEventSelectionChange()" id="prowine">
+                <label class="form-check-label" for="prowine">
+              Prowine Singapore
+            </label>
+            </div>
+        </div>
+
+        <!-- Company selection -->
+
+        <div class="card-body">
+            <h6 class="card-title">Company</h6>
+            <p class="text-muted small">If you are unable to find your company name, please approach our Exhibitor Team for assistance.</p>
+
+
+            <app-custom-dropdown formControlName="company" [items]="filteredCompanies" displayField="S_company" placeholder="Select Company" [errorMessage]="registrationForm.get('company')?.hasError('required') ? 'Company is required' : ''" [showError]="registrationForm.get('company')?.invalid && registrationForm.get('company')?.touched">
+            </app-custom-dropdown>
+
+        </div>
+    </div>
+
+
+    <div formArrayName="exhibitors" *ngIf="registrationForm.get('company')?.value != ''">
+
+        <h6>* All fields are mandatory.</h6>
+        <div *ngFor="let exhibitor of exhibitors.controls; let i=index" [formGroupName]="i" class="card mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3 exhibitor-title">
+                <h5 class="card-title mb-0">Exhibitor #{{i + 1}}</h5>
+                <button type="button" class="btn btn-link text-danger" (click)="removeExhibitor(i)" [disabled]="exhibitors.length === 1">
+            Remove
+          </button>
+            </div>
+            <div class="card-body">
+
+
+                <!-- Error Message -->
+                <div *ngIf="errorMessages[i]" class="alert alert-danger">
+                    {{errorMessages[i]}}
+                </div>
+
+                <!-- Form Fields -->
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" formControlName="email">
+                    <div class="invalid-feedback" *ngIf="exhibitor.get('email')?.errors?.['required'] && 
+                   exhibitor.get('email')?.touched">
+                        Email is required
+                    </div>
+                    <div class="invalid-feedback" *ngIf="exhibitor.get('email')?.errors?.['email'] && 
+                   exhibitor.get('email')?.touched">
+                        Please enter a valid email address
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Name on Badge</label>
+                    <input type="text" class="form-control" formControlName="nameOnBadge">
+                    <div class="invalid-feedback" *ngIf="exhibitor.get('nameOnBadge')?.errors?.['required'] && 
+                   exhibitor.get('nameOnBadge')?.touched">
+                        Name on Badge is required
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Job Title</label>
+                    <input type="text" class="form-control" formControlName="jobTitle">
+                    <div class="invalid-feedback" *ngIf="exhibitor.get('jobTitle')?.errors?.['required'] && 
+                   exhibitor.get('jobTitle')?.touched">
+                        Job Title is required
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Country</label>
+                    <app-custom-dropdown formControlName="country" [items]="countries" displayField="name" placeholder="Select Country" [errorMessage]="registrationForm.get('country')?.hasError('required') ? 'Country is required' : ''" [showError]="registrationForm.get('country')?.invalid && registrationForm.get('country')?.touched">
+                    </app-custom-dropdown>
+
+                </div>
+
+
+
+                <div class="mb-3">
+                    <label class="form-label">Company on Badge</label>
+                    <input type="text" class="form-control" formControlName="companyOnBadge">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Exhibitor Button -->
+    <div class="d-flex justify-content-center align-items-center m-auto mb-3" *ngIf="registrationForm.get('company')?.value != ''">
+        <button type="button" class="btn btn-link primary-color text-decoration-none" (click)="addExhibitor()">
+          <i class="bi bi-plus-circle primary-color"></i> Add Exhibitor
+        </button>
+    </div>
+
+    <!-- Register Button -->
+    <div class="mb-4">
+        <button type="submit" class="btn btn-custom w-100" [disabled]="!registrationForm.valid || exhibitors.length === 0">
+          Register
+        </button>
+    </div>
+
+</form>

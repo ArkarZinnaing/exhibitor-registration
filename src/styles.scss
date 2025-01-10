@@ -1,1 +1,131 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oregano:ital@0;1&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+$primary:#EE4036;
+$primary-fade: #FDE8E7;
+$danger:red;
+$text-primary: #6E6B7B;
+body {
+    background-color: #F1F1F1 !important;
+    font-family: "Montserrat", serif !important;
+}
+
+* {
+    color: $text-primary !important;
+}
+
+.primary-color {
+    color: $primary !important;
+}
+
+.exhibitor-registration {
+    max-width: 700px !important;
+    margin: auto;
+    margin-top: 90px;
+}
+
+.form-check-input:checked {
+    background-color: $primary !important;
+    border-color: $primary !important;
+}
+
+// form
+.form-control {
+    padding: 0.5rem 0.75rem !important;
+    &:focus {
+        border-color: $primary !important;
+        box-shadow: 0 0 0 0.25rem rgba($primary, .25) !important;
+    }
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-check {
+    padding-left: 1.75rem;
+    margin-bottom: 0.5rem;
+    .form-check-input {
+        margin-left: -1.75rem;
+    }
+    .form-check-input:focus {
+        box-shadow: 0 0 0 .25rem rgb(238 64 54 / 41%) !important;
+    }
+}
+
+.invalid-feedback {
+    display: block !important;
+    color: $danger !important;
+    font-size: 0.875rem !important;
+    margin-top: 0.25rem !important;
+}
+
+.input[type=radio] {
+    color: $primary;
+}
+
+.custom-dropdown {
+    position: relative;
+    .dropdown-header {
+        padding: 10px 15px;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &:hover {
+            background-color: #f8f9fa;
+        }
+    }
+    .dropdown-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        margin-top: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .dropdown-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        &:hover {
+            background-color: $primary-fade;
+        }
+        &.selected {
+            background-color: $primary;
+            color: white !important;
+        }
+    }
+}
+
+.register-btn {
+    text-decoration: none !important;
+}
+
+.btn-custom {
+    padding: 10px !important;
+    background-color: $primary !important;
+    color: #fff !important;
+    border: none;
+    transition: all 0.3s ease;
+    &:focus,
+    &:hover {
+        background-color: #f25048 !important;
+        color: #fff !important;
+        box-shadow: 0 0 0 0.2rem rgba($primary, 0.5) !important;
+    }
+}
+
+.exhibitor-title {
+    background-color: $primary-fade;
+    padding: 10px;
+}

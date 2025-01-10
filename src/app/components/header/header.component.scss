@@ -1,0 +1,9 @@
+header {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 768px) {
+    .w-md-30 {
+        width: 30% !important;
+    }
+}

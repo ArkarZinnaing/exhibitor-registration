@@ -1,0 +1,12 @@
+{
+    "/api": {
+        "target": "https://staging-fha-2024.occamlab.com.sg",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/public": {
+        "target": "https://staging-fha-2024.occamlab.com.sg",
+        "secure": false,
+        "changeOrigin": true
+    }
+}
