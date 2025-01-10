@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomDropdownComponent } from '../../components/custom-dropdown/custom-dropdown.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-exhibitor-registration',
@@ -19,7 +20,7 @@ export class ExhibitorRegistrationComponent implements OnInit {
   companies: any[] = [];
   filteredCompanies: any[] = [];
   countries: any[] = [];
-  apiBaseUrl = 'https://staging-fha-2024.occamlab.com.sg/api';
+  apiBaseUrl = environment.baseUrl;
   errorMessages: { [key: number]: string } = {};
   isLoading : boolean = false
   

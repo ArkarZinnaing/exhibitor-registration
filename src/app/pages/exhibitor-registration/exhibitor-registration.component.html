@@ -93,6 +93,10 @@
                 <div class="mb-3">
                     <label class="form-label">Company on Badge</label>
                     <input type="text" class="form-control" formControlName="companyOnBadge">
+                    <div class="invalid-feedback" *ngIf="exhibitor.get('companyOnBadge')?.errors?.['required'] && 
+                   exhibitor.get('companyOnBadge')?.touched">
+                        Company on Badge is required
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,7 +110,7 @@
     </div>
 
     <!-- Register Button -->
-    <div class="mb-4">
+    <div class="mb-4" *ngIf="registrationForm.get('company')?.value != ''">
         <button type="submit" class="btn btn-custom w-100" [disabled]="!registrationForm.valid || exhibitors.length === 0">
          <span *ngIf="!isLoading">Register</span> 
           <span class="spinner-border" role="status" *ngIf="isLoading"></span>

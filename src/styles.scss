@@ -114,7 +114,6 @@ body {
 .btn-custom {
     padding: 10px !important;
     background-color: $primary !important;
-    color: #fff !important;
     border: none;
     transition: all 0.3s ease;
     &:focus,
@@ -122,6 +121,9 @@ body {
         background-color: #f25048 !important;
         color: #fff !important;
         box-shadow: 0 0 0 0.2rem rgba($primary, 0.5) !important;
+    }
+    span {
+        color: #fff !important;
     }
 }
 
