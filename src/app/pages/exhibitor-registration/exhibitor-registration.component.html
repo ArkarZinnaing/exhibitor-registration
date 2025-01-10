@@ -108,7 +108,8 @@
     <!-- Register Button -->
     <div class="mb-4">
         <button type="submit" class="btn btn-custom w-100" [disabled]="!registrationForm.valid || exhibitors.length === 0">
-          Register
+         <span *ngIf="!isLoading">Register</span> 
+          <span class="spinner-border" role="status" *ngIf="isLoading"></span>
         </button>
     </div>
 
