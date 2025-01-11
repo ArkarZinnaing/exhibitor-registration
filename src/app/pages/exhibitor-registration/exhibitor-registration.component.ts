@@ -8,12 +8,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CustomDropdownComponent } from '../../components/custom-dropdown/custom-dropdown.component';
 import { environment } from '../../../environments/environment';
+import { SuccessModalComponent } from '../../components/success-modal/success-modal.component';
+import { ModalService } from '../../services/modal.service';
+import { HeaderComponent } from "../../components/header/header.component";
 
 @Component({
   selector: 'app-exhibitor-registration',
   templateUrl: './exhibitor-registration.component.html',
   styleUrls: ['./exhibitor-registration.component.scss'],
-  imports : [ReactiveFormsModule,CommonModule,CustomDropdownComponent]
+  imports: [ReactiveFormsModule, CommonModule, CustomDropdownComponent, SuccessModalComponent, HeaderComponent]
 })
 export class ExhibitorRegistrationComponent implements OnInit {
   registrationForm: FormGroup;
@@ -23,11 +26,13 @@ export class ExhibitorRegistrationComponent implements OnInit {
   apiBaseUrl = environment.baseUrl;
   errorMessages: { [key: number]: string } = {};
   isLoading : boolean = false
-  
+  groupRegId : string = ''
+
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private modalService : ModalService
   ) {
     this.registrationForm = this.fb.group({
       eventSelection: ['FHA-Food & Beverage', Validators.required],
@@ -128,7 +133,7 @@ export class ExhibitorRegistrationComponent implements OnInit {
   onSubmit() {
     if (this.registrationForm.valid) {
       this.isLoading = true
-      const groupRegId = this.generateGroupRegId();
+      this.groupRegId = this.generateGroupRegId();
       const selectedEvent = this.registrationForm.get('eventSelection')?.value;
       const company = this.registrationForm.get('company')?.value;
 
@@ -141,7 +146,7 @@ export class ExhibitorRegistrationComponent implements OnInit {
           S_added_via: "Web Form",
           S_company: company,
           S_email_address: control.get('email')?.value,
-          S_group_reg_id: groupRegId,
+          S_group_reg_id: this.groupRegId,
           S_name_on_badge: control.get('nameOnBadge')?.value,
           S_job_title: control.get('jobTitle')?.value,
           S_country: control.get('country')?.value,
@@ -156,6 +161,7 @@ export class ExhibitorRegistrationComponent implements OnInit {
           .pipe(
             catchError(error => {
               this.errorMessages[index] = error.error.message;
+              this.groupRegId = ''
               return of(null);
             })
           ).toPromise();
@@ -166,6 +172,15 @@ export class ExhibitorRegistrationComponent implements OnInit {
         .then(results => {
           if (Object.keys(this.errorMessages).length === 0) {
             // All registrations successful
+          console.log(results , 'data')
+            this.openModal()
+            this.groupRegId = ''
+            this.registrationForm.reset({
+              eventSelection: 'FHA-Food & Beverage', 
+              company: '', 
+              exhibitors: [] 
+            });
+    
             this.isLoading = false
             console.log('All registrations completed successfully');
           }
@@ -185,5 +200,11 @@ export class ExhibitorRegistrationComponent implements OnInit {
 
   onCountrySelect(country: any) {
     this.registrationForm.patchValue({ country: country.name });
+  }
+
+
+  openModal() {
+    this.modalService.uniqueCode = this.groupRegId
+    this.modalService.showModal();
   }
 }

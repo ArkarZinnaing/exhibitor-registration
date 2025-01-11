@@ -1,0 +1,21 @@
+<div class="modal-overlay" *ngIf="isVisible" [class.show]="isVisible">
+    <div class="modal-container">
+        <div class="modal-content" #modalContent>
+            <h2 class="modal-title">Registration Completed</h2>
+
+            <div class="code-section">
+                <p class="code-label">Your unique code is</p>
+                <p class="unique-code">{{uniqueCode}}</p>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-custom w-100" (click)="saveImage()">
+              <span>Save as Image</span>
+            </button>
+                <button class="btn btn-link w-100 primary-color" (click)="closeModal()">
+              Back to Home
+            </button>
+            </div>
+        </div>
+    </div>
+</div>
