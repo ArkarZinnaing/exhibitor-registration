@@ -1,5 +1,5 @@
 
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment';
 import { SuccessModalComponent } from '../../components/success-modal/success-modal.component';
 import { ModalService } from '../../services/modal.service';
 import { HeaderComponent } from "../../components/header/header.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-exhibitor-registration',
@@ -32,7 +33,8 @@ export class ExhibitorRegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private modalService : ModalService
+    private modalService : ModalService,
+    private toastrService: ToastrService
   ) {
     this.registrationForm = this.fb.group({
       eventSelection: ['FHA-Food & Beverage', Validators.required],
@@ -162,6 +164,7 @@ export class ExhibitorRegistrationComponent implements OnInit {
             catchError(error => {
               this.errorMessages[index] = error.error.message;
               this.groupRegId = ''
+              this.toastrService.error(this.errorMessages[index] || "Internal Server error!");
               return of(null);
             })
           ).toPromise();
