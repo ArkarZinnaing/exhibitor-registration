@@ -52,7 +52,7 @@ ng serve
 
 - **html2canvas**: HTML to canvas conversion
   - Purpose: Enables saving registration confirmation as image
-  - Version: Latest stable
+  - Version: 1.4.1
 
 
 ## API Integration
@@ -75,9 +75,9 @@ Note: API is CORS-protected and only accepts requests from `localhost:4200`
 ## Known Limitations & Future Improvements
 
 1. Advanced Features & Extensibility
-   - Add multi-language support for international events
-   - Create an exhibitor dashboard to view all registrations
-   - Add integration with event calendar systems
+  - Add multi-language support for international events
+  - Create an exhibitor dashboard to view all registrations
+  - Add integration with event calendar systems
 
 2. User Experience
   - Add form state persistence to prevent data loss on accidental refresh
@@ -89,8 +89,8 @@ Note: API is CORS-protected and only accepts requests from `localhost:4200`
   - Implement progressive form filling to reduce initial cognitive load
 
 3. Technical Debt
-   - Add comprehensive unit tests
-   - Implement E2E testing
-   - Add error boundary handling
-   - Improve type safety
+  - Add comprehensive unit tests
+  - Implement E2E testing
+  - Add error boundary handling
+  - Improve type safety
 
