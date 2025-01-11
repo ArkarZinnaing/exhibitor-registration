@@ -27,7 +27,7 @@
             <p class="text-muted small">If you are unable to find your company name, please approach our Exhibitor Team for assistance.</p>
 
 
-            <app-custom-dropdown formControlName="company" [items]="filteredCompanies" displayField="S_company" placeholder="Please select" [errorMessage]="registrationForm.get('company')?.hasError('required') ? 'Company is required' : ''" [showError]="registrationForm.get('company')?.invalid && registrationForm.get('company')?.touched">
+            <app-custom-dropdown formControlName="company" [items]="filteredCompanies" displayField="S_company" placeholder="Please select">
             </app-custom-dropdown>
 
         </div>
@@ -55,7 +55,8 @@
                 <!-- Form Fields -->
                 <div class="mb-3">
                     <label class="form-label">Email Address</label>
-                    <input type="email" class="form-control" formControlName="email">
+                    <input type="email" class="form-control" formControlName="email" [ngClass]="{'error-box' : exhibitor.get('email')?.errors?.['required'] && 
+                   exhibitor.get('email')?.touched}">
                     <div class="invalid-feedback" *ngIf="exhibitor.get('email')?.errors?.['required'] && 
                    exhibitor.get('email')?.touched">
                         Email is required
@@ -68,7 +69,8 @@
 
                 <div class="mb-3">
                     <label class="form-label">Name on Badge</label>
-                    <input type="text" class="form-control" formControlName="nameOnBadge">
+                    <input type="text" class="form-control" formControlName="nameOnBadge" [ngClass]="{'error-box' : exhibitor.get('nameOnBadge')?.errors?.['required'] && 
+                   exhibitor.get('nameOnBadge')?.touched}">
                     <div class="invalid-feedback" *ngIf="exhibitor.get('nameOnBadge')?.errors?.['required'] && 
                    exhibitor.get('nameOnBadge')?.touched">
                         Name on Badge is required
@@ -77,7 +79,8 @@
 
                 <div class="mb-3">
                     <label class="form-label">Job Title</label>
-                    <input type="text" class="form-control" formControlName="jobTitle">
+                    <input type="text" class="form-control" formControlName="jobTitle" [ngClass]="{'error-box' : exhibitor.get('jobTitle')?.errors?.['required'] && 
+                   exhibitor.get('jobTitle')?.touched}">
                     <div class="invalid-feedback" *ngIf="exhibitor.get('jobTitle')?.errors?.['required'] && 
                    exhibitor.get('jobTitle')?.touched">
                         Job Title is required
@@ -86,7 +89,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Country</label>
-                    <app-custom-dropdown formControlName="country" [items]="countries" displayField="name" placeholder="Select Country" [errorMessage]="registrationForm.get('country')?.hasError('required') ? 'Country is required' : ''" [showError]="registrationForm.get('country')?.invalid && registrationForm.get('country')?.touched">
+                    <app-custom-dropdown formControlName="country" [items]="countries" displayField="name" placeholder="Select Country">
                     </app-custom-dropdown>
 
                 </div>
@@ -95,7 +98,8 @@
 
                 <div class="mb-3">
                     <label class="form-label">Company on Badge</label>
-                    <input type="text" class="form-control" formControlName="companyOnBadge">
+                    <input type="text" class="form-control" formControlName="companyOnBadge" [ngClass]="{'error-box' : exhibitor.get('companyOnBadge')?.errors?.['required'] && 
+                   exhibitor.get('companyOnBadge')?.touched}">
                     <div class="invalid-feedback" *ngIf="exhibitor.get('companyOnBadge')?.errors?.['required'] && 
                    exhibitor.get('companyOnBadge')?.touched">
                         Company on Badge is required

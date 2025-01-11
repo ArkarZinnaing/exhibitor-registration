@@ -19,8 +19,7 @@ export class CustomDropdownComponent implements ControlValueAccessor {
   @Input() items: any[] = [];
   @Input() displayField: string = 'name';
   @Input() placeholder: string = 'Select';
-  @Input() errorMessage: string = '';
-  @Input() showError: any = false;
+
   @Output() valueChange = new EventEmitter<any>();
 
   isOpen = false;
