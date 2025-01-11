@@ -23,7 +23,7 @@ A mobile-responsive web application that allows exhibitors to register their col
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone [https://github.com/ArkarZinnaing/exhibitor-registration.git]
 cd exhibitor-registration
 ```
 
