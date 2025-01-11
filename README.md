@@ -1,59 +1,96 @@
-# ExhibitorRegistration
+# Exhibitor Registration Form
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
+A mobile-responsive web application that allows exhibitors to register their colleagues during onsite events. Built with Angular and Bootstrap, this application provides a streamlined registration process with real-time validation and multi-user registration capabilities.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Event-based company filtering
+- Dynamic exhibitor card management (add/remove)
+- Real-time form validation
+- Multi-user registration support
+- Mobile responsive design
+- Progress indicator for multiple registrations
+- Save registration confirmation as image
+- API integration with error handling
 
+## Prerequisites
+
+- Node.js (v14 or higher)
+- Angular CLI (v14 or higher)
+- npm package manager
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd exhibitor-registration
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+4. Navigate to `http://localhost:4200` in your browser
 
-## Code scaffolding
+## Tech Stack
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Angular 14+**: Frontend framework
+- **TypeScript**: Programming language
+- **Bootstrap 5.x**: UI framework
+- **RxJS**: Reactive programming library
+- **html2canvas**: For saving registration confirmation as image
 
-```bash
-ng generate component component-name
-```
+## Third-Party Libraries
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-```bash
-ng generate --help
-```
+- **html2canvas**: HTML to canvas conversion
+  - Purpose: Enables saving registration confirmation as image
+  - Version: Latest stable
 
-## Building
 
-To build the project run:
+## API Integration
 
-```bash
-ng build
-```
+Base URL: `https://staging-fha-2024.occamlab.com.sg/api/`
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Endpoints:
+- `/exhibitor-company-list`: GET - Retrieves company list filtered by event
+- `/add-exhibitor`: POST - Registers new exhibitor(s)
 
-## Running unit tests
+Note: API is CORS-protected and only accepts requests from `localhost:4200`
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Browser Support
 
-```bash
-ng test
-```
+- Chrome 
+- Firefox 
+- Safari
+- Mobile browsers 
 
-## Running end-to-end tests
+## Known Limitations & Future Improvements
 
-For end-to-end (e2e) testing, run:
+1. Advanced Features & Extensibility
+   - Add multi-language support for international events
+   - Create an exhibitor dashboard to view all registrations
+   - Add integration with event calendar systems
 
-```bash
-ng e2e
-```
+2. User Experience
+  - Add form state persistence to prevent data loss on accidental refresh
+  - Implement batch validation for multiple exhibitor cards
+  - Add preview functionality before final submission
+  - Enhance QR code scanning integration
+  - Improve error message display and formatting
+  - Add confirmation step before removing exhibitor cards
+  - Implement progressive form filling to reduce initial cognitive load
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+3. Technical Debt
+   - Add comprehensive unit tests
+   - Implement E2E testing
+   - Add error boundary handling
+   - Improve type safety
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
