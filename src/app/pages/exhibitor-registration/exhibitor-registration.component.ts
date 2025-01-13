@@ -12,12 +12,14 @@ import { SuccessModalComponent } from '../../components/success-modal/success-mo
 import { ModalService } from '../../services/modal.service';
 import { HeaderComponent } from "../../components/header/header.component";
 import { ToastrService } from 'ngx-toastr';
+import { ProgressIndicatorComponent } from "../../components/progress-indicator/progress-indicator.component";
+import { GetLocalJsonService } from '../../services/getlocaljson.service';
 
 @Component({
   selector: 'app-exhibitor-registration',
   templateUrl: './exhibitor-registration.component.html',
   styleUrls: ['./exhibitor-registration.component.scss'],
-  imports: [ReactiveFormsModule, CommonModule, CustomDropdownComponent, SuccessModalComponent, HeaderComponent]
+  imports: [ReactiveFormsModule, CommonModule, CustomDropdownComponent, SuccessModalComponent, HeaderComponent, ProgressIndicatorComponent]
 })
 export class ExhibitorRegistrationComponent implements OnInit {
   registrationForm: FormGroup;
@@ -26,18 +28,20 @@ export class ExhibitorRegistrationComponent implements OnInit {
   countries: any[] = [];
   apiBaseUrl = environment.baseUrl;
   errorMessages: { [key: number]: string } = {};
-  isLoading : boolean = false
-  groupRegId : string = ''
-
+  isLoading : boolean = false;
+  groupRegId : string = '';
+  currentSubmitCount : number = 0;
+  totalSubmitCount : number = 5;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private modalService : ModalService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private getLocalJsonService : GetLocalJsonService
   ) {
     this.registrationForm = this.fb.group({
-      eventSelection: ['FHA-Food & Beverage', Validators.required],
+      eventSelection: ['', Validators.required],
       company: ['', Validators.required],
       exhibitors: this.fb.array([])
     });
@@ -53,15 +57,24 @@ export class ExhibitorRegistrationComponent implements OnInit {
 
   // Load countries from API
   loadCountries() {
-    this.http.get('/public/provinces.json').subscribe((response: any) => {
-      // Get unique countries using Set
-      const uniqueCountries = [...new Set(response.map((item: any) => item.country))];
+    // this.http.get('/public/provinces.json').subscribe((response: any) => {
+
+    //   const uniqueCountries = [...new Set(response.map((item: any) => item.country))];
       
-      // Convert to required format
-      this.countries = uniqueCountries.map(country => ({
-        name: country
-      }));
-    });
+  
+    //   this.countries = uniqueCountries.map(country => ({
+    //     name: country
+    //   }));
+    // });
+    this.getLocalJsonService.getProvincesData().subscribe((response: any) => {
+
+        const uniqueCountries = [...new Set(response.map((item: any) => item.country))];
+        
+    
+        this.countries = uniqueCountries.map(country => ({
+          name: country
+        }));
+      });
   }
 
   // Load companies from API
@@ -134,14 +147,21 @@ export class ExhibitorRegistrationComponent implements OnInit {
   // Submit registration
   onSubmit() {
     if (this.registrationForm.valid) {
-      this.isLoading = true
+
+     if(this.currentSubmitCount >= this.totalSubmitCount){
+      this.toastrService.error("You are allowed to submit a maximum of 5 times.");
+      return
+     }
+
+      this.isLoading = true;
+   
       this.groupRegId = this.generateGroupRegId();
       const selectedEvent = this.registrationForm.get('eventSelection')?.value;
       const company = this.registrationForm.get('company')?.value;
-
+  
       // Clear previous error messages
       this.errorMessages = {};
-
+  
       // Create promises array for all exhibitor registrations
       const registrationPromises = this.exhibitors.controls.map((control, index) => {
         const payload = {
@@ -156,35 +176,34 @@ export class ExhibitorRegistrationComponent implements OnInit {
           SB_event_fha: selectedEvent === 'FHA-Food & Beverage',
           SB_event_prowine: selectedEvent === 'Prowine Singapore'
         };
-
- 
-        
+  
         return this.http.post(`${this.apiBaseUrl}/add-exhibitor`, payload)
           .pipe(
             catchError(error => {
               this.errorMessages[index] = error.error.message;
-              this.groupRegId = ''
+              this.groupRegId = '';
               this.toastrService.error(this.errorMessages[index] || "Internal Server error!");
+              this.isLoading = false;
               return of(null);
             })
-          ).toPromise();
+          )
       });
-
+  
       // Execute all registration requests
       Promise.all(registrationPromises)
         .then(results => {
           if (Object.keys(this.errorMessages).length === 0) {
-            // All registrations successful
-          console.log(results , 'data')
-            this.openModal()
-            this.groupRegId = ''
+            this.openModal();
+            this.groupRegId = '';
             this.registrationForm.reset({
-              eventSelection: 'FHA-Food & Beverage', 
+              eventSelection: '', 
               company: '', 
               exhibitors: [] 
             });
-    
-            this.isLoading = false
+            this.companies = [];
+            this.filteredCompanies = [];
+            this.isLoading = false;
+           this.currentSubmitCount++;
             console.log('All registrations completed successfully');
           }
         });
@@ -193,7 +212,7 @@ export class ExhibitorRegistrationComponent implements OnInit {
 
   // Event selection change handler
   onEventSelectionChange() {
-    this.filterCompanies();
+    this.loadCompanies();
     this.registrationForm.patchValue({ company: '' });
   }
 

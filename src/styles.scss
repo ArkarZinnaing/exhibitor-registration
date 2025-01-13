@@ -5,6 +5,10 @@ $primary:#EE4036;
 $primary-fade: #FDE8E7;
 $danger:red;
 $text-primary: #6E6B7B;
+:root {
+    --primary-color: #EE4036;
+}
+
 body {
     background-color: #F1F1F1 !important;
     font-family: "Montserrat", serif !important;
@@ -23,17 +27,22 @@ h6 {
 }
 
 .exhibitor-registration {
-    max-width: 700px !important;
+    max-width: 600px !important;
     margin: auto;
-    margin-top: 90px;
+    margin-top: 95px;
 }
 
+.title_ {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+// form
 .form-check-input:checked {
     background-color: $primary !important;
     border-color: $primary !important;
 }
 
-// form
 .form-control {
     padding: 0.5rem 0.75rem !important;
     &:focus {
@@ -124,6 +133,7 @@ h6 {
 }
 
 .btn-custom {
+    font-size: 16px !important;
     padding: 10px !important;
     background-color: $primary !important;
     border: none;
@@ -137,6 +147,10 @@ h6 {
     span {
         color: #fff !important;
     }
+}
+
+.remove-btn {
+    color: #EE4036 !important;
 }
 
 .exhibitor-title {

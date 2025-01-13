@@ -71,8 +71,10 @@ export class SuccessModalComponent implements OnInit, OnDestroy {
           window.URL.revokeObjectURL(url);
         }
       }, 'image/png', 1.0);
+      this.closeModal()
     } catch (error) {
       console.error('Error saving image:', error);
+      this.closeModal()
       // Here you might want to show an error message to the user
     }
   }

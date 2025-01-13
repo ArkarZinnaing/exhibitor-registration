@@ -1,9 +1,12 @@
 header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    .banner-img {
+        width: 367px;
+    }
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .w-md-30 {
-        width: 30% !important;
+        width: 380px !important;
     }
 }

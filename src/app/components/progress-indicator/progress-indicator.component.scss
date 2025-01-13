@@ -1,0 +1,26 @@
+.progress-container {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    .progress-text {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+    }
+    .progress-percentage {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    .progress {
+        height: 8px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+        .progress-bar {
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+    }
+}

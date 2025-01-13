@@ -1,6 +1,6 @@
 <div class="custom-dropdown">
     <div class="dropdown-header" (click)="toggleDropdown()" (blur)="markAsTouched()" tabindex="0">
-        {{ selectedValue || placeholder }}
+        <span class="input-txt">{{ selectedValue || placeholder }}</span>
         <i class="bi bi-chevron-down" [class.rotated]="isOpen"></i>
     </div>
     <div class="dropdown-list" *ngIf="isOpen">

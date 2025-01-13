@@ -1,46 +1,52 @@
 <app-header>
 </app-header>
-<h1 class="primary-color">Onsite Exhibitors Registration</h1>
+
+<app-progress-indicator [currentSubmissionCount]="currentSubmitCount" [totalSubmissionCount]="totalSubmitCount"></app-progress-indicator>
+
+<h1 class="container primary-color title_">Onsite Exhibitors Registration</h1>
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-    <!-- Event Selection -->
-    <div class="card mb-3">
-        <div class="card-body">
-            <h6 class="card-title">Event Selection</h6>
-            <div class="form-check mt-4">
-                <input class="form-check-input" type="radio" formControlName="eventSelection" value="FHA-Food & Beverage" (change)="onEventSelectionChange()" id="fha">
-                <label class="form-check-label" for="fha">
+    <div class="container">
+        <!-- Event Selection -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <h6 class="card-title">Event Selection</h6>
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="radio" formControlName="eventSelection" value="FHA-Food & Beverage" (change)="onEventSelectionChange()" id="fha">
+                    <label class="form-check-label" for="fha">
               FHA-Food & Beverage
             </label>
-            </div>
-            <div class="form-check mt-3">
-                <input class="form-check-input" type="radio" formControlName="eventSelection" value="Prowine Singapore" (change)="onEventSelectionChange()" id="prowine">
-                <label class="form-check-label" for="prowine">
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="radio" formControlName="eventSelection" value="Prowine Singapore" (change)="onEventSelectionChange()" id="prowine">
+                    <label class="form-check-label" for="prowine">
               Prowine Singapore
             </label>
+                </div>
             </div>
-        </div>
 
-        <!-- Company selection -->
+            <!-- Company selection -->
 
-        <div class="card-body">
-            <h6 class="card-title">Company</h6>
-            <p class="text-muted small">If you are unable to find your company name, please approach our Exhibitor Team for assistance.</p>
+            <div class="card-body">
+                <h6 class="card-title">Company</h6>
+                <p class="text-muted small-font">If you are unable to find your company name, please approach our Exhibitor Team for assistance.</p>
 
 
-            <app-custom-dropdown formControlName="company" [items]="filteredCompanies" displayField="S_company" placeholder="Please select">
-            </app-custom-dropdown>
+                <app-custom-dropdown formControlName="company" [items]="filteredCompanies" displayField="S_company" placeholder="Please select">
+                </app-custom-dropdown>
 
+            </div>
         </div>
     </div>
 
+    <hr *ngIf="registrationForm.get('company')?.value != '' ">
 
-    <div formArrayName="exhibitors" *ngIf="registrationForm.get('company')?.value != '' ">
+    <div class="container" formArrayName="exhibitors" *ngIf="registrationForm.get('company')?.value != '' ">
 
-        <h6>* All fields are mandatory.</h6>
+        <h6 class="fw-normal">* All fields are mandatory.</h6>
         <div *ngFor="let exhibitor of exhibitors.controls; let i=index" [formGroupName]="i" class="card mb-3">
             <div class="d-flex justify-content-between align-items-center mb-3 exhibitor-title">
-                <h5 class="card-title mb-0">Exhibitor #{{i + 1}}</h5>
-                <button type="button" class="btn btn-link text-danger" (click)="removeExhibitor(i)" [disabled]="exhibitors.length === 1">
+                <h5 class="exhibitor-title mb-0">Exhibitor #{{i + 1}}</h5>
+                <button type="button" class="btn btn-link remove-btn" (click)="removeExhibitor(i)" [disabled]="exhibitors.length === 1">
             Remove
           </button>
             </div>
@@ -63,7 +69,7 @@
                     </div>
                     <div class="invalid-feedback" *ngIf="exhibitor.get('email')?.errors?.['email'] && 
                    exhibitor.get('email')?.touched">
-                        Please enter a valid email address
+                        Invalid email address
                     </div>
                 </div>
 
@@ -109,6 +115,7 @@
         </div>
     </div>
 
+
     <!-- Add Exhibitor Button -->
     <div class="d-flex justify-content-center align-items-center m-auto mb-3" *ngIf="registrationForm.get('company')?.value != ''">
         <button type="button" class="btn btn-link primary-color text-decoration-none" (click)="addExhibitor()">
@@ -116,11 +123,13 @@
         </button>
     </div>
 
+    <hr *ngIf="registrationForm.get('company')?.value != '' ">
+
     <!-- Register Button -->
-    <div class="mb-4" *ngIf="registrationForm.get('company')?.value != ''">
+    <div class="mb-4 container" *ngIf="registrationForm.get('company')?.value != ''">
         <button type="submit" class="btn btn-custom w-100" [disabled]="!registrationForm.valid || exhibitors.length === 0 || isLoading">
-         <span *ngIf="!isLoading">Register</span> 
-          <span class="spinner-border" role="status" *ngIf="isLoading"></span>
+            <span *ngIf="!isLoading">Register</span> 
+            <span class="spinner-border" role="status" *ngIf="isLoading"></span>
         </button>
     </div>
 

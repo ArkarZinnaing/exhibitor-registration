@@ -9,9 +9,9 @@ import { ToastrModule, provideToastr } from 'ngx-toastr';
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
     provideToastr({
-      timeOut: 300000, // Default timeout for all toasts
-      positionClass: 'toast-top-right', // Default position
-      preventDuplicates: true, // Prevent duplicate messages
+      timeOut: 3000,
+      positionClass: 'toast-top-right', 
+      preventDuplicates: true, 
     }),
   provideHttpClient(),
     provideAnimations()
