@@ -14,12 +14,13 @@ import { HeaderComponent } from "../../components/header/header.component";
 import { ToastrService } from 'ngx-toastr';
 import { ProgressIndicatorComponent } from "../../components/progress-indicator/progress-indicator.component";
 import { GetLocalJsonService } from '../../services/getlocaljson.service';
+import { ErrorBoxComponent } from "../../components/error-box/error-box.component";
 
 @Component({
   selector: 'app-exhibitor-registration',
   templateUrl: './exhibitor-registration.component.html',
   styleUrls: ['./exhibitor-registration.component.scss'],
-  imports: [ReactiveFormsModule, CommonModule, CustomDropdownComponent, SuccessModalComponent, HeaderComponent, ProgressIndicatorComponent]
+  imports: [ReactiveFormsModule, CommonModule, CustomDropdownComponent, SuccessModalComponent, HeaderComponent, ProgressIndicatorComponent, ErrorBoxComponent]
 })
 export class ExhibitorRegistrationComponent implements OnInit {
   registrationForm: FormGroup;
@@ -31,7 +32,8 @@ export class ExhibitorRegistrationComponent implements OnInit {
   isLoading : boolean = false;
   groupRegId : string = '';
   currentSubmitCount : number = 0;
-  totalSubmitCount : number = 5;
+  totalSubmitCount : number = 20;
+  issubmitFailed : boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -147,11 +149,6 @@ export class ExhibitorRegistrationComponent implements OnInit {
   // Submit registration
   onSubmit() {
     if (this.registrationForm.valid) {
-
-     if(this.currentSubmitCount >= this.totalSubmitCount){
-      this.toastrService.error("You are allowed to submit a maximum of 5 times.");
-      return
-     }
 
       this.isLoading = true;
    

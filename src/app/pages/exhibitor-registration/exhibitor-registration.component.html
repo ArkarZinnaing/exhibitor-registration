@@ -1,7 +1,12 @@
-<app-header>
-</app-header>
+<app-header></app-header>
 
-<app-progress-indicator [currentSubmissionCount]="currentSubmitCount" [totalSubmissionCount]="totalSubmitCount"></app-progress-indicator>
+<div class="container">
+    <app-error-box *ngIf="issubmitFailed"></app-error-box>
+</div>
+
+<div class="container">
+    <app-progress-indicator [currentSubmissionCount]="currentSubmitCount" [totalSubmissionCount]="totalSubmitCount"></app-progress-indicator>
+</div>
 
 <h1 class="container primary-color title_">Onsite Exhibitors Registration</h1>
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">

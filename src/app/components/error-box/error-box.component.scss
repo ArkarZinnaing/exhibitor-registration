@@ -1,0 +1,14 @@
+.error-box-wrapper {
+    background-color: var(--primary-fade);
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    .error-title {
+        font-weight: 600;
+        color: #FF3B30;
+    }
+    .error-desc {
+        font-weight: 400;
+        color: #FF3B30;
+    }
+}
