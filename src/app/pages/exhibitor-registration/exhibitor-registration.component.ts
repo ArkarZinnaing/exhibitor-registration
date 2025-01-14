@@ -53,7 +53,6 @@ export class ExhibitorRegistrationComponent implements OnInit {
 
 
   ngOnInit() {
-    this.loadCompanies();
     this.loadCountries();
     this.addExhibitor(); // Add first exhibitor card by default
   }
