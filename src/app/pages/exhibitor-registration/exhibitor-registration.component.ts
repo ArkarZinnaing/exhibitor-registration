@@ -11,7 +11,6 @@ import { environment } from '../../../environments/environment';
 import { SuccessModalComponent } from '../../components/success-modal/success-modal.component';
 import { ModalService } from '../../services/modal.service';
 import { HeaderComponent } from "../../components/header/header.component";
-import { ProgressIndicatorComponent } from "../../components/progress-indicator/progress-indicator.component";
 import { GetLocalJsonService } from '../../services/getlocaljson.service';
 import { ErrorBoxComponent } from "../../components/error-box/error-box.component";
 
@@ -19,7 +18,7 @@ import { ErrorBoxComponent } from "../../components/error-box/error-box.componen
   selector: 'app-exhibitor-registration',
   templateUrl: './exhibitor-registration.component.html',
   styleUrls: ['./exhibitor-registration.component.scss'],
-  imports: [ReactiveFormsModule, CommonModule, CustomDropdownComponent, SuccessModalComponent, HeaderComponent, ProgressIndicatorComponent, ErrorBoxComponent]
+  imports: [ReactiveFormsModule, CommonModule, CustomDropdownComponent, SuccessModalComponent, HeaderComponent, ErrorBoxComponent]
 })
 export class ExhibitorRegistrationComponent implements OnInit {
   registrationForm: FormGroup;
@@ -30,11 +29,15 @@ export class ExhibitorRegistrationComponent implements OnInit {
 
   isLoading : boolean = false;
   groupRegId : string = '';
-  currentSubmitCount : number = 0;
-  totalSubmitCount : number = 20;
+
   issubmitFailed : boolean = false;
   errorMessages: { [key: number]: string } = {};
- 
+
+  // progress bar
+  currentSubmissionCount: number = 0;
+totalSubmissionCount: number = 0;
+isSubmitting: boolean = false;
+submissionProgress: number = 0
   
 
   constructor(
@@ -156,6 +159,11 @@ export class ExhibitorRegistrationComponent implements OnInit {
     if (this.registrationForm.valid) {
 
       this.isLoading = true;
+      window.scrollTo(0, 0);
+      this.isSubmitting = true;
+      this.currentSubmissionCount = 0;
+      this.submissionProgress = 0;
+      this.totalSubmissionCount = this.exhibitors.length;
    
       this.groupRegId = this.generateGroupRegId();
       const selectedEvent = this.registrationForm.get('eventSelection')?.value;
@@ -168,7 +176,7 @@ export class ExhibitorRegistrationComponent implements OnInit {
       const registrationPromises = this.exhibitors.controls.map((control, index) => {
         const payload = {
           S_added_via: "Web Form",
-          S_company: 'company',
+          S_company: company,
           S_email_address: control.get('email')?.value,
           S_group_reg_id: this.groupRegId,
           S_name_on_badge: control.get('nameOnBadge')?.value,
@@ -184,12 +192,20 @@ export class ExhibitorRegistrationComponent implements OnInit {
             catchError(error => {
               this.issubmitFailed = true
               this.errorMessages[index] = error.error.message;
+       
               this.groupRegId = '';
               this.isLoading = false;
-              window.scrollTo(0, 0);
+              this.isSubmitting = false;
+              this.submissionProgress = 0;
               return of(null);
             })
-          ).toPromise();
+          ).toPromise().then(result => {
+          if (result) {
+            this.currentSubmissionCount++;
+            this.submissionProgress = (this.currentSubmissionCount / this.totalSubmissionCount) * 100;
+          }
+          return result;
+        });
       });
 
   
@@ -197,21 +213,37 @@ export class ExhibitorRegistrationComponent implements OnInit {
       Promise.all(registrationPromises)
         .then(results => {
           if (Object.keys(this.errorMessages).length === 0) {
+            this.submissionProgress = 100;
+            setTimeout(() => {
             this.openModal();
-            this.groupRegId = '';
-            this.registrationForm.reset({
-              eventSelection: '', 
-              company: '', 
-              exhibitors: [] 
-            });
-            this.companies = [];
-            this.filteredCompanies = [];
-            this.isLoading = false;
-           this.currentSubmitCount++;
+            this.restForm();
+          }, 500);
             console.log('All registrations completed successfully');
           }
         });
     }
+  }
+
+  restForm(){
+    this.groupRegId = '';
+    while (this.exhibitors.length > 0) {
+      this.exhibitors.removeAt(0);
+    }
+    this.addExhibitor();
+    this.registrationForm.reset({
+      eventSelection: '', 
+      company: '', 
+      exhibitors: [] 
+    });
+    this.companies = [];
+    this.filteredCompanies = [];
+    this.isLoading = false;
+
+    this.isSubmitting = false;
+  this.currentSubmissionCount = 0;
+  this.totalSubmissionCount = 0;
+  this.submissionProgress = 0;
+  return of(null);
   }
 
   // Event selection change handler

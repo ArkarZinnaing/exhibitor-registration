@@ -37,6 +37,10 @@ h6 {
 }
 
 // form
+.form-label {
+    font-size: 12px !important;
+}
+
 .form-check-input:checked {
     background-color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;

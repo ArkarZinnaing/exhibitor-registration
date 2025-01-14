@@ -4,8 +4,24 @@
     <app-error-box *ngIf="issubmitFailed" [errorCount]="getErrLength()" [totalForm]="exhibitors.length"></app-error-box>
 </div>
 
-<div class="container">
-    <app-progress-indicator [currentSubmissionCount]="currentSubmitCount" [totalSubmissionCount]="totalSubmitCount"></app-progress-indicator>
+<!-- Progress bar -->
+<div class="container sticky" *ngIf="isSubmitting && totalSubmissionCount > 1">
+    <div class="progress-wrapper card mb-3">
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-status">
+                Submitting {{currentSubmissionCount}}/{{totalSubmissionCount}} exhibitors
+            </span>
+                <span class="progress-percentage">
+                {{submissionProgress.toFixed(0)}}%
+            </span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" [style.width.%]="submissionProgress" role="progressbar" [attr.aria-valuenow]="submissionProgress" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <h1 class="container primary-color title_">Onsite Exhibitors Registration</h1>
