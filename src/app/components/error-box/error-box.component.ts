@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-error-box',
@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   templateUrl: './error-box.component.html',
   styleUrl: './error-box.component.scss'
 })
-export class ErrorBoxComponent {
+export class ErrorBoxComponent  {
+    @Input() errorCount : number = 0 
+    @Input() totalForm : number = 0
+ 
    
 }

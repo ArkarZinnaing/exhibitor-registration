@@ -1,13 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oregano:ital@0;1&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-$primary:#EE4036;
-$primary-fade: #FDE8E7;
-$danger:red;
 $text-primary: #6E6B7B;
 :root {
     --primary-color: #EE4036;
     --primary-fade: #FDE8E7;
+    --danger: #FF3B30;
 }
 
 body {
@@ -24,7 +22,7 @@ h6 {
 }
 
 .primary-color {
-    color: $primary !important;
+    color: var(--primary-color) !important;
 }
 
 .exhibitor-registration {
@@ -40,15 +38,15 @@ h6 {
 
 // form
 .form-check-input:checked {
-    background-color: $primary !important;
-    border-color: $primary !important;
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
 }
 
 .form-control {
     padding: 0.5rem 0.75rem !important;
     &:focus {
-        border-color: $primary !important;
-        box-shadow: 0 0 0 0.25rem rgba($primary, .25) !important;
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 0.25rem rgba(var(--primary-color), .25) !important;
     }
 }
 
@@ -70,17 +68,21 @@ h6 {
 
 .invalid-feedback {
     display: block !important;
-    color: $danger !important;
+    color: var(--danger) !important;
     font-size: 0.875rem !important;
     margin-top: 0.25rem !important;
 }
 
 .error-box {
-    border: 1px solid red !important;
+    border: 1px solid var(--danger) !important;
+}
+
+.err-message {
+    color: var(--danger);
 }
 
 .input[type=radio] {
-    color: $primary;
+    color: var(--primary-color);
 }
 
 .toast-message {
@@ -120,10 +122,10 @@ h6 {
         padding: 10px 15px;
         cursor: pointer;
         &:hover {
-            background-color: $primary-fade;
+            background-color: var(--primary-fade);
         }
         &.selected {
-            background-color: $primary;
+            background-color: var(--primary-color);
             color: white !important;
         }
     }
@@ -136,14 +138,14 @@ h6 {
 .btn-custom {
     font-size: 16px !important;
     padding: 10px !important;
-    background-color: $primary !important;
+    background-color: var(--primary-color) !important;
     border: none;
     transition: all 0.3s ease;
     &:focus,
     &:hover {
         background-color: #f25048 !important;
         color: #fff !important;
-        box-shadow: 0 0 0 0.2rem rgba($primary, 0.5) !important;
+        box-shadow: 0 0 0 0.2rem rgba(var(--primary-color), 0.5) !important;
     }
     span {
         color: #fff !important;
@@ -155,7 +157,7 @@ h6 {
 }
 
 .exhibitor-title {
-    background-color: $primary-fade;
+    background-color: var(--primary-fade);
     padding: 10px;
 }
 

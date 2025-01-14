@@ -11,7 +11,6 @@ import { environment } from '../../../environments/environment';
 import { SuccessModalComponent } from '../../components/success-modal/success-modal.component';
 import { ModalService } from '../../services/modal.service';
 import { HeaderComponent } from "../../components/header/header.component";
-import { ToastrService } from 'ngx-toastr';
 import { ProgressIndicatorComponent } from "../../components/progress-indicator/progress-indicator.component";
 import { GetLocalJsonService } from '../../services/getlocaljson.service';
 import { ErrorBoxComponent } from "../../components/error-box/error-box.component";
@@ -28,18 +27,20 @@ export class ExhibitorRegistrationComponent implements OnInit {
   filteredCompanies: any[] = [];
   countries: any[] = [];
   apiBaseUrl = environment.baseUrl;
-  errorMessages: { [key: number]: string } = {};
+
   isLoading : boolean = false;
   groupRegId : string = '';
   currentSubmitCount : number = 0;
   totalSubmitCount : number = 20;
   issubmitFailed : boolean = false;
+  errorMessages: { [key: number]: string } = {};
+ 
+  
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private modalService : ModalService,
-    private toastrService: ToastrService,
     private getLocalJsonService : GetLocalJsonService
   ) {
     this.registrationForm = this.fb.group({
@@ -146,6 +147,11 @@ export class ExhibitorRegistrationComponent implements OnInit {
     ).join('');
   }
 
+  // get error length
+  getErrLength(): number {
+    return Object.keys(this.errorMessages).length;
+  }
+
   // Submit registration
   onSubmit() {
     if (this.registrationForm.valid) {
@@ -163,7 +169,7 @@ export class ExhibitorRegistrationComponent implements OnInit {
       const registrationPromises = this.exhibitors.controls.map((control, index) => {
         const payload = {
           S_added_via: "Web Form",
-          S_company: company,
+          S_company: 'company',
           S_email_address: control.get('email')?.value,
           S_group_reg_id: this.groupRegId,
           S_name_on_badge: control.get('nameOnBadge')?.value,
@@ -177,14 +183,16 @@ export class ExhibitorRegistrationComponent implements OnInit {
         return this.http.post(`${this.apiBaseUrl}/add-exhibitor`, payload)
           .pipe(
             catchError(error => {
+              this.issubmitFailed = true
               this.errorMessages[index] = error.error.message;
               this.groupRegId = '';
-              this.toastrService.error(this.errorMessages[index] || "Internal Server error!");
               this.isLoading = false;
+              window.scrollTo(0, 0);
               return of(null);
             })
-          )
+          ).toPromise();
       });
+
   
       // Execute all registration requests
       Promise.all(registrationPromises)
